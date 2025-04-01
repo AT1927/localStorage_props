@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Person from './Person';
 import SearchForm from './SearchForm';
 import './App.css';
@@ -11,7 +11,13 @@ function App() {
   const [country, setCountry] = useState('US');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingType, setLoadingType] = useState(''); // 'axios', 'fetch', 'compare'
+
+  // Recuperar tiempos de localStorage o usar valores por defecto
+  const [axiosTime, setAxiosTime] = useState(() => localStorage.getItem('axiosTime') || 'N/A');
+  const [fetchTime, setFetchTime] = useState(() => localStorage.getItem('fetchTime') || 'N/A');
+
   const url = `https://randomuser.me/api/?results=12&gender=${gender}&nat=${country}`;
+
   {/*Función optimizada con Axios*/}
   const findPeopleAxios = useCallback(async () => {
     if (isLoading) return;
@@ -65,6 +71,7 @@ function App() {
 
         // Guardar tiempo de Axios en localStorage
         localStorage.setItem('axiosTime', axiosTime);
+        setAxiosTime(axiosTime); // Actualizar estado
 
         return res.data.results;
       });
@@ -80,6 +87,7 @@ function App() {
 
           // Guardar tiempo de Fetch en localStorage
           localStorage.setItem('fetchTime', fetchTime);
+          setFetchTime(fetchTime); // Actualizar estado
 
           return data.results;
         });
@@ -104,6 +112,12 @@ function App() {
       <h1>Random People</h1>
 
       <SearchForm handleGender={handleGender} handleCountry={handleCountry} country={country} />
+
+      {/* Mostrar tiempos almacenados */}
+      <div className="App-timings">
+        <p>Último tiempo con Axios: {axiosTime}ms</p>
+        <p>Último tiempo con Fetch: {fetchTime}ms</p>
+      </div>
 
       {/* Ajustando la disposición de botones y estados */}
       <div className="App-controls">
