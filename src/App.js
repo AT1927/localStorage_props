@@ -57,22 +57,34 @@ function App() {
     setPeople({ axios: [], fetch: [] });
 
     try {
+      // Medir tiempo de Axios
       const axiosStart = performance.now();
       const axiosPromise = axios.get(url).then(res => {
-        console.log(`Axios tomó: ${(performance.now() - axiosStart).toFixed(2)}ms`);
-        
+        const axiosTime = (performance.now() - axiosStart).toFixed(2);
+        console.log(`Axios tomó: ${axiosTime}ms`);
+
+        // Guardar tiempo de Axios en localStorage
+        localStorage.setItem('axiosTime', axiosTime);
+
         return res.data.results;
       });
 
+      // Medir tiempo de Fetch
       const fetchStart = performance.now();
       const fetchPromise = fetch(url)
         .then(async res => {
           if (!res.ok) throw new Error(`Error HTTP: ${res.status} - ${res.statusText}`);
           const data = await res.json();
-          console.log(`Fetch tomó: ${(performance.now() - fetchStart).toFixed(2)}ms`);
+          const fetchTime = (performance.now() - fetchStart).toFixed(2);
+          console.log(`Fetch tomó: ${fetchTime}ms`);
+
+          // Guardar tiempo de Fetch en localStorage
+          localStorage.setItem('fetchTime', fetchTime);
+
           return data.results;
         });
 
+      // Ejecutar ambas promesas y capturar resultados
       const [axiosResponse, fetchResponse] = await Promise.all([axiosPromise, fetchPromise]);
 
       setPeople({ axios: axiosResponse, fetch: fetchResponse });
