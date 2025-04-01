@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import Person from './Person';
 import SearchForm from './SearchForm';
+import VisualizarTiempos from './VisualizarTiempos'; // Importar el componente
 import './App.css';
 import axios from 'axios';
 
@@ -113,11 +114,8 @@ function App() {
 
       <SearchForm handleGender={handleGender} handleCountry={handleCountry} country={country} />
 
-      {/* Mostrar tiempos almacenados */}
-      <div className="App-timings">
-        <p>Último tiempo con Axios: {axiosTime}ms</p>
-        <p>Último tiempo con Fetch: {fetchTime}ms</p>
-      </div>
+      {/* Usar el componente VisualizarTiempos y pasar los tiempos como props */}
+      <VisualizarTiempos axiosTime={axiosTime} fetchTime={fetchTime} />
 
       {/* Ajustando la disposición de botones y estados */}
       <div className="App-controls">
