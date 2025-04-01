@@ -1,0 +1,23 @@
+.SearchForm {
+  margin: 0 auto;
+  max-width: 400px;
+  box-sizing: border-box;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 2px;
+  padding: 0.5em;
+  background-color: white;
+}
+
+.SearchForm-field {
+  font-size: 10pt;
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+}
+
+.SearchForm-field input, select {
+  border: 2px solid #DADDEC;
+  margin: 5px 0 10px;
+  font-size: 1rem;
+  color: #656880;
+}
